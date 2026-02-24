@@ -1,0 +1,221 @@
+<!doctype html>
+<!-- FITUR WAJIB: Struktur dasar HTML yang benar -->
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KuyangKutai</title>
+
+  <!-- FITUR WAJIB: Menggunakan Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- NILAI TAMBAH: Bootstrap 5 untuk layout, navbar, card, grid, progress bar, utilities -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- FITUR WAJIB: Minimal terdapat 1 Navbar -->
+  <!-- NILAI TAMBAH: Bootstrap 5 Navbar dengan responsive breakpoints -->
+  <nav class="navbar navbar-expand-lg fixed-top" id="mainNavbar">
+    <div class="container-lg">
+      <a class="navbar-brand fira-code" href="#home">
+        <span class="accent-green">&gt;</span> Rafanov
+      </a>
+      <!-- NILAI TAMBAH: Bootstrap navbar-toggler untuk responsive mobile -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-terminal"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <!-- NILAI TAMBAH: Bootstrap ms-auto utility spacing -->
+        <ul class="navbar-nav ms-auto gap-lg-2">
+          <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About Me</a></li>
+          <li class="nav-item"><a class="nav-link" href="#certificates">Certificates</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+        <!-- NILAI TAMBAH: Bootstrap button utility -->
+        <button id="toggleA" class="btn btn-sm ms-lg-3 mt-2 mt-lg-0 btn-theme-toggle">Ayanami Theme</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- NILAI TAMBAH: Vue JS di-mount ke #app -->
+  <div id="app">
+
+    <!-- FITUR WAJIB: Section Home (Hero Section) berisi perkenalan singkat -->
+    <section id="home" class="hero-section">
+      <!-- NILAI TAMBAH: Bootstrap container -->
+      <div class="container-lg">
+        <div class="card main-card">
+          <div class="hero d-flex align-items-center flex-wrap gap-4 justify-content-between">
+            <div class="logo flex-shrink-0">
+              <!-- FITUR WAJIB: Minimal terdapat 1 Gambar -->
+              <img src="AyanamiSeriusNjir.jpg" alt="Rei Ayanami" class="logo-img">
+            </div>
+
+            <div class="who flex-grow-1">
+              <!-- NILAI TAMBAH: Vue interpolation {{ }} untuk data dinamis -->
+              <h1>{{ name }} <span class="accent-green fira-code fw-semibold">/ {{ role }}</span></h1>
+              <p class="lead">{{ tagline }}</p>
+              <div class="terminal" aria-hidden="false">
+                <div class="prompt">   </div>
+                <div class="prompt">$ whoami</div>
+                <div>&gt; {{ name }}</div>
+                <div style="height:10px"></div>
+                <div class="prompt">$ cat skills.txt</div>
+                <!-- NILAI TAMBAH: Vue interpolation untuk skills -->
+                <div>&gt; {{ skillLine }}</div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-column gap-2 align-items-end">
+              <!-- NILAI TAMBAH: Bootstrap button -->
+              <a href="#contact" class="btn btn-sm btn-outline-accent">Contact →</a>
+              <a href="#about" class="btn btn-sm btn-outline-accent">About Me →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FITUR WAJIB: Section About Me berisi deskripsi diri, skills (progress bar), dan pengalaman -->
+    <section id="about" class="py-5">
+      <div class="container-lg">
+        <!-- NILAI TAMBAH: Bootstrap row & col Grid System -->
+        <div class="row g-4">
+
+          <!-- Kolom kiri: About, Projects, Experience -->
+          <div class="col-lg-8">
+            <!-- About Panel -->
+            <div class="panel mb-3">
+              <div class="section-title">
+                <span class="pill">About</span>
+              </div>
+              <!-- NILAI TAMBAH: Vue interpolation untuk about text -->
+              <p class="text-muted mt-2">{{ about }}</p>
+            </div>
+
+            <!-- Projects Panel -->
+            <div class="panel mb-3">
+              <div class="section-title">
+                <strong>Projects</strong>
+                <div class="flex-grow-1"></div>
+                <small class="text-muted">selected</small>
+              </div>
+              <!-- NILAI TAMBAH: Vue v-for untuk render list projects -->
+              <div v-for="proj in projects" :key="proj.name" class="project">
+                <strong>{{ proj.name }}</strong>
+                <div><small>{{ proj.desc }}</small></div>
+              </div>
+            </div>
+
+            <!-- FITUR WAJIB: Pengalaman (Experience & Education) -->
+            <div class="panel">
+              <div class="section-title">
+                <strong>Experience &amp; Education</strong>
+              </div>
+              <!-- NILAI TAMBAH: Vue v-for untuk render experiences -->
+              <div class="text-muted" style="font-size:14px">
+                <div v-for="(exp, idx) in experiences" :key="idx" :class="idx < experiences.length-1 ? 'mb-3' : ''">
+                  <strong>{{ exp.title }}</strong> | {{ exp.period }}<br>
+                  <small>{{ exp.desc }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kolom kanan: Skills, Contact -->
+          <div class="col-lg-4">
+            <!-- FITUR WAJIB: Skills dengan progress bar -->
+            <!-- NILAI TAMBAH: Bootstrap progress bar -->
+            <div class="panel mb-3">
+              <div class="section-title"><strong>Skills</strong></div>
+              <!-- NILAI TAMBAH: Vue v-for untuk render skills + Bootstrap progress bar -->
+              <div v-for="skill in skills" :key="skill.name" class="skill mb-3">
+                <div class="d-flex justify-content-between mb-1">
+                  <strong>{{ skill.name }}</strong>
+                  <small class="text-muted">{{ skill.pct }}%</small>
+                </div>
+                <!-- NILAI TAMBAH: Bootstrap progress bar component -->
+                <div class="progress" style="height:8px;border-radius:999px;background:rgba(255,255,255,0.07)">
+                  <div class="progress-bar skill-bar"
+                       role="progressbar"
+                       :style="{ width: skill.pct + '%' }"
+                       :aria-valuenow="skill.pct"
+                       aria-valuemin="0"
+                       aria-valuemax="100">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Contact Panel -->
+            <div class="panel" id="contact">
+              <div class="section-title"><strong>Contact</strong></div>
+              <ul class="contact-list">
+                <!-- NILAI TAMBAH: Vue v-for untuk contacts -->
+                <li v-for="c in contacts" :key="c.label">
+                  <strong>{{ c.label }}</strong>
+                  <span class="flex-grow-1"></span>
+                  <a :href="c.href" target="_blank" rel="noopener">{{ c.display }}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FITUR WAJIB: Section Certificates berisi daftar sertifikat dalam bentuk card atau layout grid -->
+    <section id="certificates" class="py-5">
+      <div class="container-lg">
+        <div class="panel">
+          <div class="section-title mb-4">
+            <span class="pill">Certificates</span>
+            <div class="flex-grow-1"></div>
+            <!-- NILAI TAMBAH: Vue interpolation untuk jumlah sertifikat -->
+            <small class="text-muted">{{ certificates.length }} certs</small>
+          </div>
+          <!-- NILAI TAMBAH: Bootstrap row + col Grid System untuk certificates -->
+          <div class="row g-3">
+            <!-- NILAI TAMBAH: Vue v-for untuk render certificate cards -->
+            <!-- NILAI TAMBAH: Bootstrap card component -->
+            <div v-for="cert in certificates" :key="cert.title" class="col-sm-6 col-lg-4">
+              <div class="cert-card h-100">
+                <div class="cert-icon">
+                  <i :class="'bi ' + cert.icon" style="font-size:24px"></i>
+                </div>
+                <div class="cert-body">
+                  <div class="cert-title">{{ cert.title }}</div>
+                  <div class="cert-issuer text-muted">{{ cert.issuer }}</div>
+                  <div class="cert-year">{{ cert.year }}</div>
+                </div>
+                <span class="cert-badge">{{ cert.category }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-4">
+      <!-- NILAI TAMBAH: Vue interpolation untuk footer text -->
+      <div class="text-center text-muted" style="font-size:13px">© {{ footerText }}</div>
+    </footer>
+
+  </div><!-- end #app -->
+
+  <!-- NILAI TAMBAH: Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- NILAI TAMBAH: Vue JS 3 CDN -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+  <script src="script.js"></script>
+</body>
+</html>
